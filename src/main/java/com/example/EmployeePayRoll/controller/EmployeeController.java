@@ -10,18 +10,18 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/employees")
+@RequestMapping("/emp")
 public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
 
-    @PostMapping
+    @PostMapping("/add")
     public Employee addEmployee(@RequestBody EmployeeDTO employeeDTO) {
         return employeeService.saveEmployee(employeeDTO);
     }
 
-    @GetMapping
+    @GetMapping("/show")
     public List<EmployeeDTO> getEmployees() {
         return employeeService.getAllEmployees();
     }
@@ -31,14 +31,9 @@ public class EmployeeController {
         return employeeService.getEmployeeById(id);
     }
 
-    @PutMapping("/update/{id}")
-    public Employee updateEmployee(@PathVariable Long id, @RequestBody EmployeeDTO employeeDTO) {
-        return employeeService.updateEmployee(id, employeeDTO);
-    }
-
     @DeleteMapping("/delete/{id}")
     public String deleteEmployee(@PathVariable Long id) {
-        boolean isDeleted = employeeService.deleteEmployee(id);
-        return isDeleted ? "Employee deleted successfully!" : "Employee not found!";
+        employeeService.deleteEmployee(id);
+        return "Employee deleted successfully!";
     }
 }
